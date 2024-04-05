@@ -1,3 +1,105 @@
 this is some text too!
 
-We can do it! 
+
+class TestDialog : Rhino.UI.Forms.BaseDialog
+        {
+            private TextBox _textBox;
+            private CheckBox _checkBox;
+            private Label _textFromCheck;
+            private Rhino.UI.Controls.Slider _slider;
+ 
+            public string Text
+            {
+                get { return _textBox.Text; }
+            }
+ 
+            public bool Checked
+            {
+                get 
+                { 
+                    if (_checkBox.Checked != null)
+                    {
+                        return (bool)_checkBox.Checked;
+                    }
+                    return false;
+                }
+            }
+ 
+            string CheckedText
+            {
+                get
+                {
+                    if (Checked)
+                    {
+                        return "checked";
+                    }
+                    else
+                    {
+                        return "unchecked";
+                    }
+                }
+            }
+ 
+            void MyCheckedChanged(object sender, EventArgs e)
+            {
+                _textFromCheck.Text = CheckedText;
+            }
+ 
+            string SliderValue
+            {
+                get
+                {
+                    if (null != _slider.Value1)
+                    {
+                        return _slider.Value1.ToString();
+                    }
+                    return "varies";
+                }
+            }
+ 
+            void SliderChanged(object sender, EventArgs e)
+            {
+                _textBox.Text = SliderValue;
+            }
+ 
+            public TestDialog()
+            {
+                MinimumSize = new Eto.Drawing.Size(500,200);
+ 
+                _slider = new Rhino.UI.Controls.Slider(this, true);
+                _slider.PropertyChanged += SliderChanged;
+ 
+                _textBox = new Eto.Forms.NumericMaskedTextBox<double>();
+                _textBox.Text = SliderValue;
+ 
+                _checkBox = new CheckBox();
+                _checkBox.Text = "Really?";
+                _checkBox.Checked= false;
+                //_checkBox.ThreeState = true;
+ 
+                _checkBox.CheckedChanged += MyCheckedChanged;
+ 
+                _textFromCheck = new Label();
+                _textFromCheck.Text = CheckedText;
+ 
+                var row1 = new TableRow(
+                    new TableCell(_slider, true),
+                    new TableCell(_textBox),
+                    null);
+ 
+                var row2 = new TableRow(
+                    new TableCell(_checkBox),
+                    new TableCell(_textFromCheck),
+                    null);
+ 
+                var table = new TableLayout()
+                {
+                    Rows = { row1, row2 }
+                };
+ 
+                Content = table;
+            }
+ 
+ 
+        }
+
