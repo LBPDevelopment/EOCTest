@@ -1,5 +1,6 @@
 this is some text too!
 
+
 class TestDialog : Rhino.UI.Forms.BaseDialog
         {
             private TextBox _textBox;
@@ -101,3 +102,4 @@ class TestDialog : Rhino.UI.Forms.BaseDialog
  
  
         }
+
